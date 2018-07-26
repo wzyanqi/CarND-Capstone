@@ -1,3 +1,15 @@
+Capstone project of the Udacity Self-Driving Car Nanodegree
+
+# Coding team Submission
+
+Name 				| Udacity Account Email
+---------------- | ---------------------
+Chao Fang | fanghz1@163.com
+Gitesh KK | giteshkk@gmail.com
+Junjie Ma | 519627548@qq.com
+Zheng lei | lion_zheng@sina.com
+Zhaoyi wang | 396905228@qq.com
+
 ## Final project
 This is the final project for SDC-ND
 This project ought to be finished by team, but I tried to reach the sign up sheet and udacitie's wechat group in China and got nothing. But thanks the help of ZhengLei, He download the traffic light bag file through VPN which let me passthrough the training image for the real car. After 1 month hard work in spare time. I finally finish this project.
