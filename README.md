@@ -20,15 +20,15 @@ Zhaoyi Wang | 396905228@qq.com
 
 ### Waypoint Updater Node (WUN)
 
-> This package contains the waypoint updater node: **waypoint_updater.py**. The purpose of this node is to update the target velocity property of each waypoint based on traffic light and obstacle detection data. This node will subscribe to the **/base_waypoints**,** /current_pose**, **/obstacle_waypoint**, and **/traffic_waypoint topics**, and publish a list of waypoints ahead of the car with target velocities to the /final_waypoints topic.
+> This package contains the waypoint updater node: **waypoint_updater.py**. The purpose of this node is to update the target velocity property of each waypoint based on traffic light and obstacle detection data. This node will subscribe to the **/base_waypoints**, **/current_pose**, **/obstacle_waypoint**, and **/traffic_waypoint topics**, and publish a list of waypoints ahead of the car with target velocities to the /final_waypoints topic.
 
-![](https://s3.cn-north-1.amazonaws.com.cn/u-img/e59be442-e932-4910-9a5c-f52d38b2452c)
+![](https://i.imgur.com/CVCpUvY.png)
 
 ### Drive-By-Wire And Twist Controller (DBW & TC)
 
 >  This package contains the files that are responsible for control of the vehicle: the node **dbw_node.py** and the file **twist_controller.py**, along with a pid and lowpass filter that you can use in your implementation. The **dbw_node** subscribes to the **/current_velocity** topic along with the **/twist_cmd** topic to receive target linear and angular velocities. Additionally, this node will subscribe to **/vehicle/dbw_enabled**, which indicates if the car is under dbw or driver control. This node will publish throttle, brake, and steering commands to the **/vehicle/throttle_cmd**, **/vehicle/brake_cmd**, and **/vehicle/steering_cmd** topics.
 
-![image](https://s3.cn-north-1.amazonaws.com.cn/u-img/362632d5-433e-4d9a-91ba-849de84aebfb)
+![](https://i.imgur.com/Rk0M3sF.png)
 
 ### Traffic Light Detection (TLD) And Classification
 
@@ -36,7 +36,7 @@ Zhaoyi Wang | 396905228@qq.com
 > 
 > The **/current_pose** topic provides the vehicle's current position, and **/base_waypoints** provides a complete list of waypoints the car will be following.
 
-![image](https://s3.cn-north-1.amazonaws.com.cn/u-img/4ebc4376-55e8-4164-9d8d-d2ea0b9df82f)
+![](https://i.imgur.com/cCHyoTR.png)
 
 #### Zig zag and Project time consumption(one month)
 1. I used VMWare to install the vm disk image and my Host(win10) to run the simulator. It runs very well at the begining, but few hours later, the network service of the VMWare in the host computer began crushed. So I have to install the vm disk image to the VirtualBox.
