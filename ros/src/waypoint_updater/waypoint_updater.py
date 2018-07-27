@@ -26,9 +26,10 @@ TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
 LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number
-MAX_DECEL = 0.5      # Max decelation
+MAX_DECEL = 0.5     # Max decelation
 SAFETY_BUFF = 6     # Safety buff for stop idx
 FREQUECY_10HZ = 10  # 10hz
+MIN_VELOCITY = 1.0  # min velocity = 1m/s
 
 class WaypointUpdater(object):
     def __init__(self):
@@ -64,10 +65,9 @@ class WaypointUpdater(object):
             rate.sleep()
 
     def get_closest_waypoint_idx(self):
-        x = self.pose.pose.position.x
-        y = self.pose.pose.position.y
-        #rospy.loginfo('positionX :%s,  positionY:%s', x,y)
-        closest_idx = self.waypoint_tree.query([x,y], 1)[1]
+        current_pose_coord = [self.pose.pose.position.x, self.pose.pose.position.y]
+        #rospy.loginfo('positionX :%s,  positionY:%s', current_pose_coord[0], current_pose_coord[1])
+        closest_idx = self.waypoint_tree.query(current_pose_coord, 1)[1]
 
         # check if the closest is ahed or behind the vehicle
         closest_coord = self.waypoints_2d[closest_idx]
@@ -75,7 +75,7 @@ class WaypointUpdater(object):
 
         closest_v = np.array(closest_coord)
         prev_v = np.array(prev_coord)
-        pos_v = np.array([x, y] )
+        pos_v = np.array(current_pose_coord)
 
         val = np.dot(closest_v - prev_v, pos_v - closest_v)
 
@@ -118,7 +118,7 @@ class WaypointUpdater(object):
             stop_idx = max(self.stopline_wp_idx - closest_idx - SAFETY_BUFF, 0)
             dist = self.distance(waypoints, i, stop_idx)
             vel = math.sqrt(2*MAX_DECEL*dist)
-            if vel <1.:
+            if vel <MIN_VELOCITY:
                 vel = 0.
             
             p.twist.twist.linear.x = min(vel, wp.twist.twist.linear.x)
