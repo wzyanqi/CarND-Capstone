@@ -9,6 +9,7 @@ from scipy.spatial import KDTree
 
 import math
 
+
 '''
 This node will publish waypoints from the car's current position to some `x` distance ahead.
 
@@ -25,7 +26,9 @@ TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
 LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number
-MAX_DECEL = .5
+MAX_DECEL = 0.5      # Max decelation
+SAFETY_BUFF = 6     # Safety buff for stop idx
+FREQUECY_10HZ = 10  # 10hz
 
 class WaypointUpdater(object):
     def __init__(self):
@@ -50,7 +53,7 @@ class WaypointUpdater(object):
         self.loop()
 
     def loop(self):
-        rate = rospy.Rate(10)
+        rate = rospy.Rate(FREQUECY_10HZ)
         while not rospy.is_shutdown():
             if self.pose and self.base_lane:
                 #get closest waypoint
@@ -106,22 +109,22 @@ class WaypointUpdater(object):
         self.final_waypoints_pub.publish(final_lane)
 
     def decelerate_waypoints(self, waypoints, closest_idx):
-        tmp =[]
+        decel_wps =[]
         
         for i, wp in enumerate(waypoints):
             p = Waypoint()
             p.pose = wp.pose
 
-            stop_idx = max(self.stopline_wp_idx - closest_idx - 6,0)
-            dist = self.distance(waypoints,i, stop_idx)
+            stop_idx = max(self.stopline_wp_idx - closest_idx - SAFETY_BUFF, 0)
+            dist = self.distance(waypoints, i, stop_idx)
             vel = math.sqrt(2*MAX_DECEL*dist)
             if vel <1.:
                 vel = 0.
             
-            p.twist.twist.linear.x = min(vel , wp.twist.twist.linear.x)
-            tmp.append(p)
+            p.twist.twist.linear.x = min(vel, wp.twist.twist.linear.x)
+            decel_wps.append(p)
 
-        return tmp
+        return decel_wps
     
     def pose_cb(self, msg):
         # TODO: Implement
